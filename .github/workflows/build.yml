@@ -1,0 +1,31 @@
+# Build check for JCUIScaler (Linux / GTK2).
+# Compiles both Lazarus packages and the demo on every push and pull request.
+# This workflow only builds; it never changes the repository.
+name: Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-linux-gtk2:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out
+        uses: actions/checkout@v5
+
+      - name: Install Free Pascal and Lazarus
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lazarus
+          lazbuild --version
+
+      - name: Build runtime package (core + component)
+        run: lazbuild --ws=gtk2 packages/lazarus/jcuiscaler_rt.lpk
+
+      - name: Build design-time package
+        run: lazbuild --ws=gtk2 packages/lazarus/jcuiscaler_dsgn.lpk
+
+      - name: Build demo
+        run: lazbuild --ws=gtk2 demo/JCUIScalerDemo.lpi

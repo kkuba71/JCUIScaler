@@ -1,0 +1,499 @@
+JCUIScaler — Release History
+=============================
+
+--------------------------------------------------------------------------------
+2026-11-08  1.0 — repository preparation (no code changes)
+--------------------------------------------------------------------------------
+
+Platforms
+  - macOS 27 with Lazarus 4.8 (Cocoa): demo verified by the author. Tested
+    platforms: Windows, macOS, Linux/GTK2; Delphi 13.2 (unofficial).
+  - Screenshots: assets/screenshots/jcuiscaler_macos.png.
+
+Documentation
+  - docs/pl and docs/en contain only the Technical Specification (current,
+    maintained). Static Analysis, Risk Analysis and RoadMap moved to
+    docs/*/Additional with a README: they record the development up to 1.0
+    and are not updated on an ongoing basis.
+  - Specification R1-09: macOS tested; section 17 describes the status of
+    the documents, CONTRIBUTING.md and the move of planning to GitHub.
+  - Static Analysis Rev L, Risk Analysis Rev E, RoadMap Rev I: closed for
+    1.0; macOS; contributor rules moved to CONTRIBUTING.md (rule clarified:
+    explicit calls only, a new explicit call is allowed; core changes after
+    1.0 within the rules; conditions for R2-01 and experimental features);
+    help-wanted tasks; GitHub decided as the main repository.
+  - Document properties updated for the new revisions.
+
+Repository
+  - CONTRIBUTING.md / CONTRIBUTING.pl.md: architecture rules, experimental
+    features, Delphi compatibility, testing, documentation, license.
+  - .github/workflows/build.yml: CI build check (Ubuntu 24.04, Lazarus from
+    the distribution packages; runtime package, design-time package, demo;
+    GTK2). Build only — never changes the repository.
+  - .github/ISSUE_TEMPLATE (bug report, platform test report, feature
+    proposal) and PULL_REQUEST_TEMPLATE.md with the rules checklist.
+  - README (EN, PL): macOS tested, macOS screenshot, documentation layout,
+    Contributing section.
+  - Help wanted: monitor change with a different DPI (LCL), DPI change in
+    Delphi/VCL, font scaling (experimental).
+
+Packages
+  - jcuiscaler_dsgn.lpk: dependency IDEIntf replaced by LCL. The registration
+    unit uses only RegisterComponents (unit Classes), so IDEIntf was not
+    needed; without it the design-time package builds without recompiling
+    IDE packages (relevant for CI runners without write access to the
+    Lazarus installation). Re-install the package in the IDE once.
+
+--------------------------------------------------------------------------------
+2026-11-07  README screenshots
+--------------------------------------------------------------------------------
+
+  - assets/screenshots/jcuiscaler_sizes.png: the demo form at 860 × 540 and
+    1500 × 940 side by side.
+  - assets/screenshots/jcuiscaler_resize.gif: animated resize from 760 × 470
+    to 1500 × 940 and back. The last frame is pixel-identical to the first
+    (verified) — a visual demonstration of the no-drift property.
+  - Captured from the demo project on Linux/GTK2 (Xvfb, Arc GTK2 theme,
+    96 DPI). Both READMEs show the images under the introduction.
+
+--------------------------------------------------------------------------------
+2026-11-07  1.0 — documentation final
+--------------------------------------------------------------------------------
+
+  - Specification R1-08, Static Analysis Rev K, RoadMap Rev H, Risk Analysis
+    Rev D (PL and EN): Delphi 13.2 verification recorded (compilation, basic
+    operation, third-party controls); TSplitter limitation under VCL; CRLF
+    line endings; findings F-28 (TSplitter, E2010) and F-29 (line endings),
+    both closed; Delphi removed from the open items.
+  - Document properties filled in all DOCX files (title, subject, author,
+    keywords, description, language); the PDFs carry the same metadata.
+  - README (EN, PL): Delphi 13.2 verified, TSplitter note.
+
+Remaining for the release (RC3)
+  - Public repository (R3-02), tag v1.0.0.
+  - OPM package and submission (R3-04, R3-05).
+
+--------------------------------------------------------------------------------
+2026-11-07  Delphi 13.2 compatibility verified
+--------------------------------------------------------------------------------
+
+JCUIScaler.capture.inc
+  - Delphi error E2010 (Incompatible types TWinControl / TSplitter): in VCL
+    TSplitter descends from TGraphicControl, so "Root is TSplitter" with Root
+    declared as TWinControl is rejected at compile time. Test changed to
+    "TObject(Root) is TSplitter" (and the cast accordingly). LCL behaviour
+    unchanged (TSplitter is a TWinControl there); under VCL the condition is
+    never true because the DFS visits TWinControl only — splitters get the
+    generic bounds scaling in Delphi. Risk check: no change to the algorithm,
+    event sequence or object lifetime.
+
+Line endings
+  - All Pascal sources (.pas, .inc, .lpr, .lfm) converted to CRLF (RAD Studio
+    warns about LF; Lazarus accepts both). .gitattributes added to keep CRLF
+    in the working tree.
+
+Verification
+  - FPC 3.2.2 / LCL 3.0: packages, library (with LCLGTK2) and demo compile;
+    demo runtime A/B test against the previous package: 12/12 screenshots
+    identical.
+  - Delphi 13.2 (Win64): compiles; basic operation confirmed by the author,
+    including third-party controls (TMS UI Pack PageControl, RxDBGrid).
+
+--------------------------------------------------------------------------------
+2026-11-07  1.0 — release preparation
+--------------------------------------------------------------------------------
+
+Code (comments and repository files only)
+  - Version labels unified to "1.0" in source comments (JCUIScaler.pas, the
+    three .inc files); code identical to RC2 with comments ignored.
+  - Packages: version 1.0.0.
+  - .gitignore added in the repository root.
+
+Documentation
+  - Specification R1-07, Static Analysis Rev J, RoadMap Rev G (PL and EN);
+    Risk Analysis Rev C unchanged. Titles without "RC".
+  - Lazarus requirement stated as tested: 3.0+ (tested with 3.0 on
+    Linux/GTK2 and 4.8 on Windows); Qt and Cocoa marked as untested.
+  - RoadMap: R2-03 (English documentation, README), R3-01 (repository
+    structure) and R3-03 (README) completed; next stage: public repository
+    and OPM submission.
+  - All documents provided as PDF next to DOCX (docs/pl, docs/en).
+  - README: requirements and documentation sections updated.
+
+Open before tagging 1.0
+  - Delphi 13 compilation of the core (README states verification in
+    progress).
+  - Public repository (R3-02), OPM package and submission (R3-04, R3-05).
+
+--------------------------------------------------------------------------------
+2026-11-07  English documentation and README (R2-03)
+--------------------------------------------------------------------------------
+
+  - docs/en: English translations of Specification R1-06, Static Analysis
+    Rev I, RoadMap Rev F and Risk Analysis Rev C (same structure and
+    formatting as the Polish originals; document language set to en-US).
+    The Polish versions remain the source documents and prevail in case of
+    discrepancies.
+  - README.md (English) and README.pl.md (Polish): purpose, features, quick
+    start for both integration variants, TJCScaler reference, recommendations
+    and FAQ (anchors, TListView scrollbars, hidden tab sheets, GTK2 ssBoth,
+    dynamic controls, fonts, TToolButton, BorderSpacing), limitations
+    (including untested macOS/Qt and unofficial Delphi support), repository
+    layout, documentation, license. Logo switches between light and dark
+    theme.
+  - Polish documents: stale references corrected (RoadMap R2-03 now refers
+    to Spec R1-06 / Rev I; Risk Analysis names the component TJCScaler;
+    Static Analysis no longer lists the completed IDE component as open).
+
+--------------------------------------------------------------------------------
+2026-11-07  Polish documentation for RC2
+--------------------------------------------------------------------------------
+
+  - Specification R1-06: section 12.2 describes TJCScaler (installation,
+    naming, behaviour, linked properties, events and their order, virtual
+    methods, limitations); module table (2.1) extended with the component,
+    registration unit and packages; new section 13.2 License; limitation row
+    for replacing OnShow at run time (10); component tests (14); 8.4 updated
+    (F-22 closed); conclusions (16).
+  - Static Analysis Rev I: section 7c with findings F-23..F-27 (component
+    review against the critical risks, OnShow chaining, class name, linked
+    properties and extension points, license); F-22 closed; open areas
+    updated.
+  - RoadMap Rev F: R2-02, R2-04, R2-05 completed; licence corrected to LGPL
+    version 2 (as LCL); RC2 section heading/goal updated; repository
+    structure (R3-01) updated; next stage: English documentation (R2-03),
+    then RC3.
+  - Risk Analysis Rev C: update section for RC2 — component checked against
+    the critical architecture risks (compliant), component-specific risks,
+    regression, licensing and environment status.
+  - Document file names no longer carry "RC1".
+
+--------------------------------------------------------------------------------
+2026-11-07  License files and source headers (no code changes)
+--------------------------------------------------------------------------------
+
+License
+  - JCUIScaler uses the same license as the Lazarus Component Library: the
+    GNU Library General Public License, version 2, with the static linking
+    exception ("modified LGPL"). Note: the LCL license is LGPL version 2
+    (June 1991), not 2.1 — the RoadMap entry R2-04 ("LGPL 2.1") is corrected
+    accordingly in the documentation.
+  - COPYING.LGPL.txt: verbatim copy of the file distributed with Lazarus.
+  - COPYING.modifiedLGPL.txt: the exception statement verbatim as in Lazarus;
+    only the introductory sentence is adapted (it names JCUIScaler instead of
+    the Lazarus sources).
+  - LICENSE, COPYRIGHT, AUTHORS added.
+  - The license itself is not modified. The only addition, in LICENSE and in
+    every source header: the copyright notice and the name of the original
+    author must not be removed from the source files or from modified
+    versions of them (consistent with the license's requirement to keep
+    copyright notices intact).
+
+Source headers
+  - License header (copyright 2025-2026 Jakub Cebula, Kraków; reference to
+    COPYING.modifiedLGPL.txt; retention of the author's notice) added to all
+    source files: JCUIScaler.pas, the three .inc files, JCUIScalerComponent.pas,
+    JCUIScalerReg.pas and the demo units/program. JCUIScaler.pas: the former
+    "(c) ... licence.txt" lines replaced by the header.
+  - Generated package units (jcuiscaler_rt.pas, jcuiscaler_dsgn.pas) are
+    created by Lazarus and carry no header.
+  - Package .lpk files: License field updated.
+
+JCUIScaler.pas
+  - RestoreInitialScale: comment corrected to match the code (the loop covers
+    the controls in the reference model only; the subsequent ScalerOnResize
+    brings all model controls to scale 1). Static Analysis F-22 closed:
+    behaviour verified on Windows and GTK2.
+
+Verification
+  - All changed source files: code identical to the previous version with
+    comments ignored. Packages, library (with and without LCLGTK2) and demo
+    compile.
+
+--------------------------------------------------------------------------------
+2026-11-07  RC2 — TJCScaler component and Lazarus packages (R2-02)
+--------------------------------------------------------------------------------
+
+Scaler core
+  - No changes. JCUIScaler.pas and the .inc files are identical to RC1.2.
+
+Risk check (Risk Analysis, section 2 and the RC1.2 rule)
+  The component is an integration layer only: it hooks the owner form's
+  events solely to call the public methods of TJCUIScaler. It registers
+  nothing on the form's controls, the core and its object model are
+  untouched, and the core's lifetime is that of the component (owned by the
+  form).
+
+New: source/JCUIScalerComponent.pas (LCL only)
+  - TJCScaler = class(TComponent), holds a TJCUIScaler.
+    Class name chosen so that the default instance name on a form is short
+    (JCScaler1). The scaler core keeps its name TJCUIScaler: it is used in
+    production applications with the manual integration and must stay
+    compatible; the core works without the component.
+  - Loaded: Attach — ScalerInit(Owner form), then the published properties
+    SkipBevelScaling and ResetOnShow are applied (after ScalerInit, which
+    resets them).
+  - OnShow: chained in Attach (LCL has no handler list for OnShow); the
+    application's own OnShow runs first, then ScalerOnShow — the same order
+    as the manual integration in the demo.
+  - Resize: AddHandlerOnResize on the owner form (LCL handler list); the
+    application's own OnResize stays untouched and runs first.
+  - Published properties SkipBevelScaling and ResetOnShow are linked to the
+    scaler object: set in the Object Inspector (streamed, applied after
+    ScalerInit) or changed in code at any time; after Attach they are read
+    from and written to the scaler directly.
+  - Published events (default empty), Sender = the component:
+      BeforeShow, AfterShow, BeforeResize, AfterResize
+    Order on show:   form OnShow -> BeforeShow -> ScalerOnShow -> AfterShow
+    Order on resize: form OnResize -> BeforeResize -> ScalerOnResize ->
+                     AfterResize
+    AfterResize is the place for adjustments the scaler does not make (fonts,
+    controls outside the model, custom drawing); geometry of model controls
+    set in BeforeResize is overwritten by the scaler.
+  - Protected virtual DoShow and DoResize (default: Before* event, scaler,
+    After* event) for descendants; protected property Attached.
+  - Public: Attach (for components created in code, or after the application
+    replaced OnShow at run time), Rescale (= ScalerOnResize; e.g. from
+    TPageControl.OnChange on Windows), RestoreInitialScale.
+  - One component per form; owner must be a TForm, otherwise inactive.
+  - Destroy: unhooks OnShow and the resize handler unless the form itself is
+    being destroyed.
+
+New: source/design/JCUIScalerReg.pas, source/design/jcuiscaler_icons.res
+  - Registers TJCScaler on palette page "JCUI" with the 24/36/48 px
+    icons (TJCSCALER, _150, _200).
+
+New: packages/lazarus
+  - jcuiscaler_rt.lpk   (RunTime): JCUIScaler + .inc files +
+    JCUIScalerComponent; requires LCL.
+  - jcuiscaler_dsgn.lpk (DesignTime): JCUIScalerReg + icons; requires
+    jcuiscaler_rt and IDEIntf. Install this one in the IDE.
+  - Sources are referenced from ../../source (no copies).
+
+Demo
+  - Unchanged (manual integration; no package installation needed).
+
+Verification (FPC 3.2.2 / LCL 3.0, GTK2, 96 DPI)
+  - Both packages compile with lazbuild; no warnings from JCUIScaler units.
+  - Demo variant with the component streamed from the .lfm, including the
+    four events (main form), and a descendant overriding DoShow/DoResize
+    created in code with Attach (second form): all 12 screenshots (three
+    tabs, three sizes, second form) pixel-identical to the manual
+    integration; event order as documented; ResetOnShow set after Attach
+    reaches the scaler (reopen scenario identical to the first show); the
+    application's own OnShow/OnResize handlers still called.
+  - To do: IDE installation and design-time test on Windows (Lazarus 4.8).
+
+--------------------------------------------------------------------------------
+2026-11-07  Demo update + scrollbar recommendation (no library changes)
+--------------------------------------------------------------------------------
+
+Library
+  - No changes. Sources are identical to RC1.2.
+
+Known behaviour — TListView on hidden tab sheets
+  TListView is a native widgetset control. While its tab sheet is hidden it
+  reports a ClientWidth that does not include its vertical scrollbar. Columns
+  scaled at that moment are too wide by the scrollbar width until the next
+  form resize (confirmed on Windows and GTK2; GTK2 measured: ClientWidth 451
+  while hidden, 435 once shown). With a horizontal scrollbar allowed, this
+  shows up as a horizontal scrollbar after the tab is shown.
+
+  LCL grids (TStringGrid, TDBGrid) are not affected: they are drawn by the LCL
+  and manage their own scrollbars, so ClientWidth is correct even while hidden
+  (GTK2 measured with ssAutoBoth, ssVertical and ssBoth, 6 and 60 rows).
+
+Recommendation — ScrollBars = ssVertical for TListView (vsReport)
+  JCUIScaler fits the columns to the control width, so a horizontal scrollbar
+  is never needed. With ScrollBars = ssVertical the temporary excess after a
+  hidden-tab resize stays under the vertical scrollbar / right edge (only the
+  empty end of the last column is clipped) and no horizontal scrollbar
+  appears. No code, no extra calls. Confirmed on Windows and GTK2.
+  The same setting is a sensible default for grids scaled by JCUIScaler,
+  although grids do not have the hidden-tab issue.
+
+  Optional, Windows only — exact widths immediately after a tab change: call
+  FScaler.ScalerOnResize from TPageControl.OnChange. ScalerOnResize recomputes
+  everything from the reference model, so the call is deterministic and safe
+  at an unchanged form size. On GTK2 it has no effect: TTabSheet.OnShow and
+  TPageControl.OnChange fire before the new tab is laid out.
+
+  Rejected alternatives:
+  - OnResize handler registered by the scaler on every TListView: makes the
+    scaler react to control events outside its three explicit calls and ties
+    its lifetime to the controls — contrary to the design.
+  - Deferred call (Application.QueueAsyncCall from OnChange): works on GTK2,
+    but the tab is first painted with the wrong columns and then corrected
+    (visible flicker).
+  - Reserving the scrollbar width for hidden list views: not reliable; on GTK2
+    GetSystemMetrics(SM_CXVSCROLL) returns 16 while the scrollbar takes 19 px.
+
+GTK2 note
+  The LCL default ScrollBars = ssBoth maps to GTK_POLICY_ALWAYS on GTK2: both
+  scrollbars are always visible, regardless of content.
+
+Demo
+  - ListView1, TreeView1 (and StringGrid1, unchanged) use ScrollBars = ssVertical.
+  - No tab-change code: the demo uses only the three standard calls.
+  - README: Lazarus only (LCL-specific project, forms and packages; no Delphi
+    .dfm); anchors note; scrollbar recommendation.
+
+Verification
+  - FPC 3.2.2 / LCL 3.0, GTK2, 96 and 120 DPI: no drift after resize cycles;
+    ListView resized on hidden tab, then shown: no horizontal scrollbar.
+  - Windows: ssVertical behaviour confirmed by the author.
+
+Documentation
+  - Spec R1-05: section 13.1 "Control configuration recommendations"
+    (anchors, TListView scrollbars, grids, optional Windows OnChange call,
+    GTK2 ssBoth, rejected alternatives); limitation rows in section 10;
+    demo is Lazarus only (12.3); runtime tests (14); conclusions (16).
+  - Static Analysis Rev H: section 7b, findings F-18..F-21.
+  - RoadMap Rev E: R2-01 moved beyond 1.0, R2-02 confirmed for 1.0, R1-05
+    (demo rebuild and GTK2 runtime tests).
+  - Risk Analysis Rev B (file renamed from JCUISCaler_Risks_RC1.docx): update
+    section for RC1.2 — status of component, technical, regression and
+    environment risks after GTK2 runtime tests; record of the rejected RC1.3
+    fix as a violation of critical architecture risks; rule: every code
+    change is checked against section 2 before implementation.
+  - RestoreInitialScale: public by design (emergency reset). Spec 8.4
+    rewritten (contract, side effects, consistency), added to the API table
+    (section 11). Static Analysis F-22: order of OnResize vs SetBounds inside
+    RestoreInitialScale to be verified on Windows; code comment does not
+    match the code (loop covers model controls only) — fix in the next code
+    session. Verified on GTK2: second form reset is pixel-identical to its
+    first show.
+
+--------------------------------------------------------------------------------
+2026-11-06  RC1.2 — Delphi source compatibility + fixes
+--------------------------------------------------------------------------------
+
+Delphi (unofficial)
+  The source now compiles under Delphi VCL as well as FPC/LCL, with no change
+  to the object-based architecture and only three {$IFDEF FPC} blocks.
+  Scope: VCL only, manual integration only (copy files, add uses, three calls).
+  No Delphi package is provided in 1.0; the .lpk remains Lazarus-only.
+  Limitations under Delphi:
+    - JCSCALER_BORDER_TAG is ignored (VCL has no BorderSpacing; Margins has
+      different semantics and is intentionally not emulated).
+    - Monitor/DPI change (R2-01) is not handled; VCL per-monitor DPI scaling
+      may interact with the scaler on multi-monitor setups.
+    - TJCUIScaler should be declared as a form field (as in the docs/demo).
+
+File names
+  - Include files renamed to JCUIScaler.capture.inc, JCUIScaler.controls.inc,
+    JCUIScaler.find.inc; {$I} directives and comments updated accordingly.
+    Names are case-sensitive on Linux/macOS — use them exactly as given.
+    (Entries below 2026-11-06 use the previous names.)
+
+JCUIScaler.pas
+  - {$mode objfpc}{$H+} wrapped in {$IFDEF FPC}.
+  - uses: removed unused units LCLIntf, LCLType, Dialogs, Buttons.
+  - Added implementation-level access class TJCControlAccess = class(TControl).
+    TControl.Font is protected in VCL; all generic Font access goes through it.
+    Neutral under LCL.
+  - ScaleControl: SavedBevel/SavedBorder initialised by assignment instead of
+    initialised local variables (FPC extension). F-02 remains resolved.
+  - LocalRound: Trunc(V + 0.5) replaced by Floor(V + 0.5). Identical results
+    for V >= 0; fixes rounding of negative values (e.g. controls in a
+    scrolled TScrollBox: -1.7 now gives -2, previously -1).
+  - RestoreInitialScale: Font.Size restore via TJCControlAccess; remaining
+    Polish comment translated to English.
+  - JCSCALER_BORDER_TAG / TBorderOrig: comments updated (TWinControl only,
+    LCL only, record holds BorderSpacing values).
+
+JCUIScaler.capture.inc
+  - Generic TCtrlOrig block: Font access via TJCControlAccess.
+  - BUGFIX BorderSpacing capture: previously stored the control's bounds
+    (Left, Top, Left+Width, Top+Height), which were then written into
+    BorderSpacing. Now stores the original BorderSpacing.Left/Top/Right/Bottom,
+    as described in Spec 5.3. Block wrapped in {$IFDEF FPC}.
+  - Redundant "Root is TControl" test removed from the BorderSpacing condition.
+
+JCUIScaler.controls.inc
+  - BUGFIX BorderSpacing apply: section moved to the start of
+    ApplyControlExceptions (without Exit). Previously unreachable for tagged
+    TDBGrid, TStringGrid, TListView, TTreeView, TStatusBar and TSplitter,
+    because their sections end with Exit. Grids/ListView/StatusBar now compute
+    column widths after the final BorderSpacing is set.
+    Block wrapped in {$IFDEF FPC}.
+  - BUGFIX LCLGTK2: tv.ItemHeight replaced by tv.DefaultItemHeight. LCL
+    TTreeView has no ItemHeight property; RC1 did not compile with the GTK2
+    widgetset. No runtime change (OrigItemHeight is still 0, FS3).
+  - DBGrid/StringGrid: newW initialised before the column loop (removes a
+    possible "might not have been initialized" warning in Delphi).
+
+JCUIScaler.find.inc
+  - No code changes.
+
+Documentation
+  - Spec R1-04, Static Analysis Rev G, RoadMap Rev D.
+  - Spec corrected: TSpeedButton is NOT excluded from scaling (only
+    TToolButton is; the code was right, the spec was wrong).
+  - Spec corrected: the reference model is captured on the first ScalerOnShow,
+    not in ScalerInit (describes existing code behaviour).
+
+Verification
+  - FPC 3.2.2 / LCL 3.0: compiles without warnings, with and without LCLGTK2,
+    on a case-sensitive file system.
+  - Delphi 13: reviewed, not yet compiled (to be confirmed on a Delphi install).
+
+--------------------------------------------------------------------------------
+2026-06-01  RC1 post-static-analysis cleanup (based on Static Analysis Rev D)
+--------------------------------------------------------------------------------
+
+JCUIScaler.pas
+  - Added public constant JCSCALER_BORDER_TAG = $10000000 to interface section.
+    Documents the Tag-bit contract for BorderSpacing scaling; previously an
+    undocumented magic literal in Capture.inc.
+  - Added private method LocalRound(const V: Double): Integer — deterministic
+    rounding using Trunc(V + 0.5). Replaces built-in Round() throughout all
+    scaling calculations to avoid FPC banker's rounding asymmetry on *.5 values.
+  - Added private methods FindListViewOrigIndex, FindStatusBarOrigIndex,
+    FindTreeViewOrigIndex. Unifies reference model lookups across all control
+    types (previously ListView/StatusBar/TreeView used ad-hoc local loops in
+    Controls.inc).
+  - ScaleControl: SavedBevel and SavedBorder initialised to 0 at declaration
+    to suppress potential compiler warnings about uninitialised variables.
+  - ScaleControl: Round() replaced with LocalRound() for bounds calculation.
+  - RestoreInitialScale: added Font.Size restore from OrigFontSize where
+    recorded. No visible effect in RC1 (font scaling not active), but ensures
+    correctness once font scaling is implemented. Brute-force proportional
+    approach intentionally retained — see comment in source for rationale.
+  - ScalerOnShow: updated comment to describe current behaviour and intent.
+  - GridLastWOffset: field comment updated — retained for cross-platform safety,
+    documents why it must not be removed despite being 0 in standard use.
+  - All inline comments converted to English.
+
+JCUIScaler.Find.inc
+  - Added FindListViewOrigIndex(lv: TListView): Integer.
+  - Added FindStatusBarOrigIndex(sb: TStatusBar): Integer.
+  - Added FindTreeViewOrigIndex(tv: TTreeView): Integer.
+  - Section header comment added.
+  - All inline comments converted to English.
+
+JCUIScaler.Controls.inc
+  - Removed local nested function LocalRound — replaced by TJCUIScaler.LocalRound.
+  - TListView section: ad-hoc search loop replaced by FindListViewOrigIndex.
+  - TStatusBar section: ad-hoc search loop replaced by FindStatusBarOrigIndex.
+  - TTreeView section: ad-hoc search loop replaced by FindTreeViewOrigIndex.
+  - TTreeView: split into two separate try..except blocks (Indent / ItemHeight)
+    each with an explanatory comment. Previously a single silent except.
+  - TGroupBox: exception handler removed from ApplyControlExceptions.
+    GroupBoxOrig records are still captured (OrigFontSize reserved for future
+    font scaling). Handler will be added when font scaling is implemented.
+  - All inline comments converted to English.
+
+JCUIScaler.Capture.inc
+  - Magic literal $10000000 replaced by JCSCALER_BORDER_TAG.
+  - TGroupBox capture block: comment added explaining that no active handler
+    exists in ApplyControlExceptions in RC1.
+  - TTreeView capture block: comment updated to reflect FS3 status.
+  - All inline comments converted to English.
+
+--------------------------------------------------------------------------------
+RC1  (initial release candidate)
+--------------------------------------------------------------------------------
+  First functional version. Deterministic reference-model scaling for
+  Lazarus LCL forms. Iterative DFS capture, per-type exceptions for DBGrid,
+  StringGrid, ListView, TreeView, StatusBar, Splitter, BorderSpacing.

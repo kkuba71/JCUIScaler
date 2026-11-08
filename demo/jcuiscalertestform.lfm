@@ -1,0 +1,67 @@
+object DemoTestForm: TDemoTestForm
+  Left = 735
+  Height = 744
+  Top = 126
+  Width = 1334
+  Caption = 'Second form — ResetOnShow + BorderSpacing'
+  ClientHeight = 744
+  ClientWidth = 1334
+  DesignTimePPI = 120
+  OnCreate = FormCreate
+  OnResize = FormResize
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '3.8.0.0'
+  object Button1: TButton
+    Left = 60
+    Height = 70
+    Top = 61
+    Width = 200
+    Caption = 'Close'
+    TabOrder = 0
+    OnClick = Button1Click
+  end
+  object StringGrid1: TStringGrid
+    Left = 118
+    Height = 404
+    Top = 176
+    Width = 1100
+    ColCount = 6
+    Columns = <    
+      item
+        Title.Caption = 'Lorem'
+        Width = 180
+      end    
+      item
+        Title.Caption = 'Ipsum'
+        Width = 180
+      end    
+      item
+        Title.Caption = 'Dolor'
+        Width = 220
+      end    
+      item
+        Title.Caption = 'Sit'
+        Width = 300
+      end    
+      item
+        Title.Caption = 'Amet'
+        Width = 114
+      end>
+    RowCount = 6
+    ScrollBars = ssVertical
+    TabOrder = 1
+  end
+  object PanelBorder: TPanel
+    Left = 20
+    Height = 60
+    Top = 664
+    Width = 1294
+    Align = alBottom
+    BorderSpacing.Left = 20
+    BorderSpacing.Right = 20
+    BorderSpacing.Bottom = 20
+    Caption = 'Align = alBottom, BorderSpacing 20 px — scaled via JCSCALER_BORDER_TAG'
+    TabOrder = 2
+  end
+end

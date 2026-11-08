@@ -1,0 +1,14 @@
+# Pascal sources: CRLF in the working tree (required by RAD Studio, fine for Lazarus)
+*.pas  text eol=crlf
+*.inc  text eol=crlf
+*.pp   text eol=crlf
+*.lpr  text eol=crlf
+*.dpr  text eol=crlf
+*.lfm  text eol=crlf
+*.dfm  text eol=crlf
+# Binary
+*.res  binary
+*.ico  binary
+*.png  binary
+*.docx binary
+*.pdf  binary

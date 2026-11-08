@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="5">
+    <PathDelim Value="\"/>
+    <Name Value="jcuiscaler_dsgn"/>
+    <Type Value="DesignTime"/>
+    <Author Value="Jakub Cebula"/>
+    <AutoUpdate Value="AsNeeded"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\..\source\design"/>
+        <UnitOutputDirectory Value="lib\dsgn\$(TargetCPU)-$(TargetOS)\$(LCLWidgetType)"/>
+      </SearchPaths>
+      <Other>
+        <CustomOptions Value="$(IDEBuildOptions)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="JCUIScaler - design-time package: registers TJCScaler on the component palette (page JCUI)."/>
+    <License Value="Modified LGPL (GNU LGPL v2 with static linking exception, same as LCL) - see COPYING.modifiedLGPL.txt"/>
+    <Version Major="1"/>
+    <Files>
+      <Item>
+        <Filename Value="..\..\source\design\JCUIScalerReg.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="JCUIScalerReg"/>
+      </Item>
+      <Item>
+        <Filename Value="..\..\source\design\jcuiscaler_icons.res"/>
+        <Type Value="Binary"/>
+      </Item>
+    </Files>
+    <RequiredPkgs>
+      <Item>
+        <PackageName Value="jcuiscaler_rt"/>
+      </Item>
+      <Item>
+        <PackageName Value="LCL"/>
+      </Item>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

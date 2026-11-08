@@ -1,0 +1,22 @@
+# Lazarus / Free Pascal build output
+lib/
+backup/
+*.ppu
+*.o
+*.or
+*.a
+*.compiled
+*.rst
+*.rsj
+*.lps
+*.res.bak
+*.bak
+
+# Executables
+*.exe
+*.dbg
+demo/JCUIScalerDemo
+
+# OS / editor
+.DS_Store
+Thumbs.db
